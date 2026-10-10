@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archero 2 Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090810',
+                        cardBg: '#111022',
+                        cardBorder: '#232042',
+                        accentGold: '#ffb703',
+                        accentPurple: '#8b5cf6',
+                        accentPink: '#ec4899',
+                        accentGreen: '#10b981',
+                        accentBlue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #07060e;
+            color: #f8fafc;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07060e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232042;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #363263;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#07060e] text-slate-100 selection:bg-amber-500 selection:text-black">
+
+    <header class="bg-[#0b0a17] border-b border-[#201d3e] sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- SilverEagle Emblem & Title Header -->
+            <div class="flex items-center space-x-3.5">
+                <!-- SilverEagle Logo Badge SVG -->
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-b from-blue-900 via-indigo-950 to-amber-950 p-0.5 shadow-lg border border-amber-500/50 flex-shrink-0 flex items-center justify-center relative overflow-hidden">
+                    <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background Wings -->
+                        <path d="M10 40 Q 30 10, 50 35 Q 70 10, 90 40 Q 60 45, 50 65 Q 40 45, 10 40 Z" fill="url(#wingGrad)" />
+                        <!-- Central Gem Shield -->
+                        <path d="M25 35 L50 20 L75 35 L70 70 L50 85 L30 70 Z" fill="#1d1b3a" stroke="#d97706" stroke-width="2" />
+                        <!-- Glowing Center Crystal -->
+                        <circle cx="50" cy="45" r="14" fill="url(#gemGrad)" stroke="#38bdf8" stroke-width="2" />
+                        <circle cx="47" cy="42" r="4" fill="#ffffff" opacity="0.8" />
+                        <!-- Rank 1 Badge -->
+                        <path d="M62 62 L74 62 L78 70 L74 78 L62 78 L58 70 Z" fill="#d97706" stroke="#fef08a" stroke-width="1.5" />
+                        <text x="68" y="73" fill="#ffffff" font-size="10" font-weight="900" text-anchor="middle">1</text>
+                        <!-- SilverEagle Text -->
+                        <text x="50" y="93" fill="#fef08a" font-size="10" font-weight="900" text-anchor="middle" letter-spacing="0.5">SilverEagle</text>
+                        <!-- Gradients -->
+                        <defs>
+                            <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fef08a"/>
+                                <stop offset="50%" stop-color="#d97706"/>
+                                <stop offset="100%" stop-color="#78350f"/>
+                            </linearGradient>
+                            <linearGradient id="gemGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#38bdf8"/>
+                                <stop offset="100%" stop-color="#0369a1"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">MADE BY ADOLFE</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-wide text-white flex items-center gap-1.5 mt-0.5">
+                        <span class="text-amber-400">ARCHERO 2</span> <span class="font-bold text-slate-200">Hub</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Controls: Donate & Target Level Dropdown -->
+            <div class="flex items-center space-x-3">
+                <a href="https://paypal.me" target="_blank" class="bg-amber-500 hover:bg-amber-400 text-black font-extrabold px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-lg transition-transform active:scale-95">
+                    <span>☕</span> Donate
+                </a>
+
+                <div class="bg-[#181630] border border-[#2f2b57] px-3 py-1.5 rounded-xl flex items-center space-x-2">
+                    <span class="text-[10px] uppercase font-bold text-slate-400">TARGET LEVEL</span>
+                    <select id="headerTargetTier" onchange="syncHeaderTarget(this.value)" class="bg-transparent text-amber-300 font-bold text-xs sm:text-sm focus:outline-none cursor-pointer">
+                        <option value="3" class="bg-[#111022]">Epic (27 pt)</option>
+                        <option value="4" class="bg-[#111022]">Epic +1 (54 pt)</option>
+                        <option value="5" class="bg-[#111022]">Epic +2 (108 pt)</option>
+                        <option value="6" class="bg-[#111022]">Legendary (216 pt)</option>
+                        <option value="7" class="bg-[#111022]">Legendary +1 (432 pt)</option>
+                        <option value="8" class="bg-[#111022]">Legendary +2 (864 pt)</option>
+                        <option value="9" class="bg-[#111022]">Legendary +3 (1.728 pt)</option>
+                        <option value="10" selected class="bg-[#111022]">Mythic (3.456 pt / 128 Epics)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-2 pb-2">
+            <button onclick="switchMainTab('rune')" id="nav-tab-rune" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 bg-amber-500 text-black shadow-md">
+                🔮 Rune Calculator
+            </button>
+            <button onclick="switchMainTab('events')" id="nav-tab-events" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 text-slate-400 hover:text-white hover:bg-[#1f1c3a]">
+                📋 Event Tasks
+            </button>
+            <button onclick="switchMainTab('guides')" id="nav-tab-guides" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 text-slate-400 hover:text-white hover:bg-[#1f1c3a]">
+                📚 Guides
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- ================= TAB 1: RUNE CALCULATOR ================= -->
+        <section id="section-rune" class="space-y-6">
+
+            <!-- 1. CHOOSE TARGET TIER -->
+            <div class="bg-[#111022] border border-[#232042] rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                        <span>🎯</span> 1. CHOOSE TARGET TIER
+                    </h2>
+                    <span id="targetBadgeLabel" class="text-xs font-extrabold text-amber-400 bg-amber-950/50 border border-amber-500/40 px-3 py-1 rounded-lg">Target: Mythic</span>
+                </div>
+
+                <!-- Tier Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3" id="targetTierGrid">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- 2. MANUAL INVENTORY INPUT -->
+            <div class="bg-[#111022] border border-[#232042] rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-sm font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                            <span>📦</span> 2. MANUAL INVENTORY INPUT
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">Enter your current rune inventory count for each rarity level.</p>
+                    </div>
+                    <button onclick="resetRuneInventory()" class="text-xs font-bold text-slate-300 hover:text-white bg-[#1a1835] hover:bg-[#25224a] border border-[#322d5e] px-4 py-2 rounded-xl transition-all flex items-center gap-1.5">
+                        <span>🔄</span> Reset
+                    </button>
+                </div>
+
+                <!-- Inventory Grid (3 Columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="inventoryGrid">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- 3. PROGRESS & REQUIREMENTS -->
+            <div class="bg-[#111022] border border-[#232042] rounded-2xl p-5 shadow-xl space-y-5">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                            <span>📊</span> PROGRESS & REQUIREMENTS
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">Live calculation based on your selected target and current inventory.</p>
+                    </div>
+
+                    <!-- Status Box -->
+                    <div class="bg-[#0c0a17] border border-amber-500/40 rounded-xl px-4 py-2 text-right flex items-center space-x-3">
+                        <div>
+                            <p class="text-[9px] uppercase font-extrabold text-slate-400">STATUS</p>
+                            <p id="statusPercent" class="text-xl font-black text-amber-400">0%</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-bold">
+                            🏆
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div>
+                    <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                        <span class="text-slate-300">Total Progress</span>
+                        <span id="progressPointsLabel" class="text-amber-400">0 / 3,456 Pts</span>
+                    </div>
+                    <div class="w-full bg-[#0a0914] rounded-full h-4 p-0.5 border border-[#232042]">
+                        <div id="progressBarFill" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Result Cards (Epics Needed, Rares Needed, Commons Needed) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div class="bg-[#0b0a17] border border-[#201d3e] rounded-xl p-4 flex items-center justify-between shadow-inner">
+                        <div>
+                            <p id="resultEpics" class="text-3xl font-black text-white">128</p>
+                            <p class="text-xs font-black text-slate-400 uppercase tracking-wider mt-1">EPICS NEEDED</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-800/50 flex items-center justify-center text-purple-400 font-bold text-lg">
+                            🛡️
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0b0a17] border border-[#201d3e] rounded-xl p-4 flex items-center justify-between shadow-inner">
+                        <div>
+                            <p id="resultRares" class="text-3xl font-black text-cyan-400">384</p>
+                            <p class="text-xs font-black text-slate-400 uppercase tracking-wider mt-1">RARES NEEDED</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-cyan-950/60 border border-cyan-800/50 flex items-center justify-center text-cyan-400 font-bold text-lg">
+                            💎
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0b0a17] border border-[#201d3e] rounded-xl p-4 flex items-center justify-between shadow-inner">
+                        <div>
+                            <p id="resultCommons" class="text-3xl font-black text-emerald-400">3,456</p>
+                            <p class="text-xs font-black text-slate-400 uppercase tracking-wider mt-1">COMMONS NEEDED</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-950/60 border border-emerald-800/50 flex items-center justify-center text-emerald-400 font-bold text-lg">
+                            🎯
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 2: EVENT TASKS ================= -->
+        <section id="section-events" class="space-y-6 hidden">
+            <div class="bg-[#111022] border border-[#232042] rounded-2xl p-6 shadow-xl">
+                <div class="mb-6">
+                    <h2 class="text-lg font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                        <span>📋</span> EVENT TASKS & RESOURCE REQUIREMENTS
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Complete overview of active in-game events and required resources.</p>
+                </div>
+
+                <div class="space-y-4" id="eventsListVertical">
+                    <!-- Dynamic vertical rendering -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: GUIDES ================= -->
+        <section id="section-guides" class="space-y-6 hidden">
+            <div class="bg-[#111022] border border-[#232042] rounded-2xl p-6 shadow-xl">
+                <div class="mb-6">
+                    <h2 class="text-lg font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                        <span>📚</span> ARCHERO 2 STRATEGY GUIDES
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Select a section below to access detailed guides and strategies.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="guidesGrid">
+                    <!-- Dynamic rendering -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Custom SVG Resource Icons matching user's exact reference image
+        const svgIcons = {
+            gem: `<svg class="w-6 h-6 inline-block text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 8L12 22L20 8L12 2Z"/></svg>`,
+            key: `<svg class="w-6 h-6 inline-block text-cyan-300 drop-shadow-[0_0_8px_rgba(103,232,249,0.5)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6C3.69 6 1 8.69 1 12C1 15.31 3.69 18 7 18C9.61 18 11.83 16.33 12.65 14H16V18H20V14H23V10H12.65ZM7 15C5.34 15 4 13.66 4 12C4 10.34 5.34 9 7 9C8.66 9 10 10.34 10 12C10 13.66 8.66 15 7 15Z"/></svg>`,
+            shovel: `<svg class="w-6 h-6 inline-block text-amber-300 drop-shadow-[0_0_8px_rgba(252,211,77,0.5)]" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3L21 5L15 11L13 9L19 3M11 11L3 19V21H5L13 13L11 11Z"/></svg>`,
+            wish: `<svg class="w-6 h-6 inline-block text-pink-300 drop-shadow-[0_0_8px_rgba(244,114,182,0.5)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 8L22 9L17 14L18.5 21L12 17.5L5.5 21L7 14L2 9L9 8L12 2Z"/></svg>`
+        };
+
+        // All 11 Rune Rarities with exact multipliers & styles
+        const runeRarities = [
+            { id: 'common', name: 'COMMON', pts: 1, color: 'border-slate-700 bg-slate-900/50 text-slate-300' },
+            { id: 'fine', name: 'FINE', pts: 3, color: 'border-emerald-900/60 bg-emerald-950/20 text-emerald-400' },
+            { id: 'rare', name: 'RARE', pts: 9, color: 'border-blue-900/60 bg-blue-950/20 text-blue-400' },
+            { id: 'epic', name: 'EPIC', pts: 27, color: 'border-purple-900/60 bg-purple-950/20 text-purple-400' },
+            { id: 'epic1', name: 'EPIC +1', pts: 54, color: 'border-purple-900/60 bg-purple-950/20 text-purple-300' },
+            { id: 'epic2', name: 'EPIC +2', pts: 108, color: 'border-purple-900/60 bg-purple-950/20 text-purple-200' },
+            { id: 'legendary', name: 'LEGENDARY', pts: 216, color: 'border-amber-900/60 bg-amber-950/20 text-amber-400' },
+            { id: 'legendary1', name: 'LEGENDARY +1', pts: 432, color: 'border-amber-900/60 bg-amber-950/20 text-amber-300' },
+            { id: 'legendary2', name: 'LEGENDARY +2', pts: 864, color: 'border-amber-900/60 bg-amber-950/20 text-amber-200' },
+            { id: 'legendary3', name: 'LEGENDARY +3', pts: 1728, color: 'border-amber-900/60 bg-amber-950/20 text-amber-100' },
+            { id: 'mythic', name: 'MYTHIC', pts: 3456, color: 'border-pink-900/60 bg-pink-950/20 text-pink-400' }
+        ];
+
+        let runeInventory = Array(11).fill(0);
+        let selectedTargetIndex = 10; // Default Mythic (3456 pts)
+
+        function switchMainTab(tabName) {
+            ['rune', 'events', 'guides'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+                document.getElementById(`nav-tab-${t}`).className = "px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 text-slate-400 hover:text-white hover:bg-[#1f1c3a]";
+            });
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+            document.getElementById(`nav-tab-${tabName}`).className = "px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 bg-amber-500 text-black shadow-md";
+        }
+
+        function renderTargetGrid() {
+            const container = document.getElementById('targetTierGrid');
+            container.innerHTML = '';
+            const targetableIndices = [3, 4, 5, 6, 7, 8, 9, 10];
+
+            targetableIndices.forEach(idx => {
+                const item = runeRarities[idx];
+                const isSelected = idx === selectedTargetIndex;
+                const card = document.createElement('button');
+                card.onclick = () => setTargetTier(idx);
+                card.className = `p-3 rounded-xl border text-center transition-all ${
+                    isSelected 
+                        ? 'border-amber-400 bg-amber-500/10 shadow-[0_0_12px_rgba(245,158,11,0.3)] ring-2 ring-amber-400/50' 
+                        : 'border-[#232042] bg-[#0c0a17] hover:border-slate-600'
+                }`;
+                card.innerHTML = `
+                    <p class="text-xs font-black ${isSelected ? 'text-amber-400' : 'text-slate-200'}">${item.name}</p>
+                    <p class="text-[10px] text-slate-400 font-mono mt-1">${item.pts.toLocaleString('en-US')} pts</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderInventoryGrid() {
+            const container = document.getElementById('inventoryGrid');
+            container.innerHTML = '';
+
+            runeRarities.forEach((item, idx) => {
+                const box = document.createElement('div');
+                box.className = `border rounded-xl p-3.5 flex items-center justify-between ${item.color}`;
+                box.innerHTML = `
+                    <div>
+                        <p class="text-xs font-black tracking-wide">${item.name}</p>
+                        <p class="text-[10px] opacity-75 font-mono">${item.pts} pt / item</p>
+                    </div>
+                    <div class="flex items-center space-x-1.5 bg-[#080712]/80 p-1 rounded-lg border border-slate-800">
+                        <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-white font-black rounded text-sm">-</button>
+                        <input type="number" value="${runeInventory[idx]}" min="0" onchange="setQty(${idx}, this.value)" class="w-12 bg-transparent text-center font-extrabold text-white text-sm focus:outline-none">
+                        <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-white font-black rounded text-sm">+</button>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function setTargetTier(idx) {
+            selectedTargetIndex = idx;
+            document.getElementById('headerTargetTier').value = idx;
+            const targetItem = runeRarities[idx];
+            document.getElementById('targetBadgeLabel').innerText = `Target: ${targetItem.name}`;
+            renderTargetGrid();
+            recalculate();
+        }
+
+        function syncHeaderTarget(val) {
+            setTargetTier(parseInt(val));
+        }
+
+        function changeQty(idx, delta) {
+            runeInventory[idx] = Math.max(0, runeInventory[idx] + delta);
+            renderInventoryGrid();
+            recalculate();
+        }
+
+        function setQty(idx, val) {
+            runeInventory[idx] = Math.max(0, parseInt(val) || 0);
+            recalculate();
+        }
+
+        function resetRuneInventory() {
+            runeInventory = Array(11).fill(0);
+            renderInventoryGrid();
+            recalculate();
+        }
+
+        function recalculate() {
+            let totalPts = 0;
+            runeRarities.forEach((item, idx) => {
+                totalPts += runeInventory[idx] * item.pts;
+            });
+
+            const targetPts = runeRarities[selectedTargetIndex].pts;
+            const ptsNeeded = Math.max(0, targetPts - totalPts);
+
+            const percent = Math.min(100, (totalPts / targetPts) * 100);
+
+            const commonsNeeded = ptsNeeded;
+            const raresNeeded = Math.ceil(ptsNeeded / 9);
+            const epicsNeeded = Math.ceil(ptsNeeded / 27);
+
+            document.getElementById('statusPercent').innerText = `${percent.toFixed(0)}%`;
+            document.getElementById('progressPointsLabel').innerText = `${totalPts.toLocaleString('en-US')} / ${targetPts.toLocaleString('en-US')} Pts`;
+            document.getElementById('progressBarFill').style.width = `${percent}%`;
+
+            document.getElementById('resultEpics').innerText = epicsNeeded.toLocaleString('en-US');
+            document.getElementById('resultRares').innerText = raresNeeded.toLocaleString('en-US');
+            document.getElementById('resultCommons').innerText = commonsNeeded.toLocaleString('en-US');
+        }
+
+        // 6 Vertical Event Tasks Data
+        const eventsList = [
+            {
+                id: 1,
+                name: "1. Angler's Bounty",
+                reqs: [
+                    { icon: 'gem', val: '3000' },
+                    { icon: 'key', val: '50' },
+                    { icon: 'shovel', val: '80' }
+                ]
+            },
+            {
+                id: 2,
+                name: "2. Island Treasure Hunt",
+                reqs: [
+                    { icon: 'gem', val: '20000' },
+                    { icon: 'key', val: '40' },
+                    { icon: 'shovel', val: '70' },
+                    { icon: 'wish', val: '40' }
+                ]
+            },
+            {
+                id: 3,
+                name: "3. Vibrant Voyage",
+                reqs: [
+                    { icon: 'gem', val: '5000' },
+                    { icon: 'key', val: '50' },
+                    { icon: 'shovel', val: '80' },
+                    { icon: 'wish', val: '50' }
+                ]
+            },
+            {
+                id: 4,
+                name: "4. Contract Mystling",
+                reqs: [
+                    { icon: 'gem', val: '20000' },
+                    { icon: 'key', val: '25' },
+                    { icon: 'wish', val: '25' }
+                ]
+            },
+            {
+                id: 5,
+                name: "5. Plinko",
+                reqs: [
+                    { icon: 'gem', val: '5000' },
+                    { icon: 'key', val: '50' },
+                    { icon: 'wish', val: '50' },
+                    { icon: 'shovel', val: '80' }
+                ]
+            },
+            {
+                id: 6,
+                name: "6. Summon Event",
+                reqs: [
+                    { icon: 'gem', val: '15000' },
+                    { icon: 'key', val: '10' },
+                    { icon: 'wish', val: '10' },
+                    { icon: 'shovel', val: '20' }
+                ]
+            }
+        ];
+
+        function renderEvents() {
+            const container = document.getElementById('eventsListVertical');
+            container.innerHTML = '';
+
+            eventsList.forEach(ev => {
+                const row = document.createElement('div');
+                row.className = 'bg-[#0c0a17] border border-[#201d3e] rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md hover:border-[#322d5e] transition-all';
+
+                let reqsHtml = '';
+                ev.reqs.forEach(r => {
+                    reqsHtml += `
+                        <div class="flex items-center space-x-1.5 bg-[#141228] px-3 py-1.5 rounded-lg border border-[#2d2854]">
+                            ${svgIcons[r.icon]}
+                            <span class="text-sm font-black text-slate-100">${r.val}</span>
+                        </div>
+                    `;
+                });
+
+                row.innerHTML = `
+                    <div class="font-extrabold text-amber-400 text-base">
+                        ${ev.name}
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        ${reqsHtml}
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // 6 Guides Sub-Categories
+        const guidesData = [
+            "1. Arena", "2. Peak Arena", "3. Characters",
+            "4. Jungle", "5. Seal", "6. Chapters"
+        ];
+
+        function renderGuides() {
+            const container = document.getElementById('guidesGrid');
+            container.innerHTML = '';
+
+            guidesData.forEach(title => {
+                const card = document.createElement('div');
+                card.className = 'bg-[#0c0a17] border border-[#201d3e] rounded-xl p-8 flex flex-col items-center justify-center min-h-[160px] text-center shadow-md relative overflow-hidden group hover:border-amber-500/40 transition-all';
+                card.innerHTML = `
+                    <h3 class="text-base font-extrabold text-slate-200 mb-2">${title}</h3>
+                    <div class="text-4xl font-black text-amber-500/30 tracking-widest uppercase group-hover:scale-110 transition-transform">
+                        SOON
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.onload = function() {
+            renderTargetGrid();
+            renderInventoryGrid();
+            recalculate();
+            renderEvents();
+            renderGuides();
+        };
+    </script>
+</body>
+</html>
